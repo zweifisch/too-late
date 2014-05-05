@@ -1,0 +1,23 @@
+{
+  "name": "too-late",
+  "version": "0.0.1",
+  "description": "events with timeouts",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/zweifisch/too-late.git"
+  },
+  "keywords": [
+    "event",
+    "timeout"
+  ],
+  "author": "zf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zweifisch/too-late/issues"
+  },
+  "homepage": "https://github.com/zweifisch/too-late"
+}
