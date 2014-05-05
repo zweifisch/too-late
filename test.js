@@ -7,23 +7,23 @@
   it('should be on time', function(done) {
     customer.waitfor('food', function(food) {
       return done();
-    }).till(3, function() {
+    }).till(30, function() {
       return done(new Error('should not be too late'));
     });
     return setTimeout((function() {
       return customer.deliver('food', 'patato salad');
-    }), 2);
+    }), 20);
   });
 
   it('should be too late', function(done) {
     customer.waitfor('food', function(food) {
       return done(new Error('should not be on time'));
-    }).till(3, function() {
+    }).till(30, function() {
       return done();
     });
     return setTimeout((function() {
       return customer.deliver('food', 'patato spaghetti');
-    }), 4);
+    }), 40);
   });
 
 }).call(this);
