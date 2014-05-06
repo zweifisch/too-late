@@ -1,20 +1,46 @@
-# too-late
+# too late
 
 events with timeouts
 
-```coffee
-customer = require('too-late')()
+```sh
+npm install 'too-late'
+```
 
-customer.waitfor 'food', (food)->
-	console.log "eat #{food}"
-.till 30, ->
-	console.log 'customer left, you are too late'
+```javascript
+var customer = require('too-late')();
 
-setTimeout (-> customer.deliver 'food', 'patato spaghetti'), 40
+customer.waitfor('food', function(food) {
+	console.log("eat " + food);
+}).till(30, function() {
+	console.log('customer left, you are too late');
+});
+
+setTimeout(function() {
+	customer.deliver('food', 'patato spaghetti');
+}, 40):
 ```
 
 output
 
 ```
 customer left, you are too late
+```
+
+wait for multiple events
+
+```javascript
+var customer = require('too-late')();
+customer.waitfor(['food', 'drink'], function(food, drink) {
+	console.log(food + " and " + drink);
+}).till(50, function(served) {
+	console.log('customer left, you are too late');
+});
+
+setTimeout(function() {
+	customer.deliver('food', 'patato spaghetti');
+}, 20):
+
+setTimeout(function() {
+	customer.deliver('drink', 'soda water');
+}, 40):
 ```
