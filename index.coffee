@@ -58,4 +58,7 @@ class Thing
 				callback data, event
 		this
 
-module.exports = -> new Thing
+if module?
+    module.exports = -> new Thing
+else
+    @toolate = -> new Thing

@@ -108,8 +108,14 @@
 
   })();
 
-  module.exports = function() {
-    return new Thing;
-  };
+  if (typeof module !== "undefined" && module !== null) {
+    module.exports = function() {
+      return new Thing;
+    };
+  } else {
+    this.toolate = function() {
+      return new Thing;
+    };
+  }
 
 }).call(this);

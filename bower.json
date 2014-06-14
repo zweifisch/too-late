@@ -1,0 +1,26 @@
+{
+  "name": "too-late",
+  "main": "index.js",
+  "version": "0.0.2",
+  "homepage": "https://github.com/zweifisch/too-late",
+  "authors": [
+    "Feng Zhou <zf.pascal@gmail.com>"
+  ],
+  "description": "events with timeouts",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "event",
+    "timeout"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
