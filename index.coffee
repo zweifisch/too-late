@@ -1,23 +1,18 @@
-AssocList = require "./AssocList"
 
 delay = (cb, time)-> setTimeout time, cb
 
 class Thing
 
     constructor: ->
-        @callbacks = new AssocList
-        @timers = new AssocList
+        @callbacks = {}
+        @timers = {}
         @lastevent = null
-        @datas = new AssocList
+        @datas = {}
 
     waitfor: (event, callback)->
         if typeof event is 'string'
-            pushed = @callbacks.swapItem event, (cbs)->
-                cbs.push callback
-                cbs
-            if not pushed
-                @callbacks.appendItem event, [callback]
-            @lastevent=event
+            @callbacks[event] = [] unless event of @callbacks
+            @callbacks[@lastevent=event].push callback
             this
         else
             @waitforMany event, callback
@@ -26,18 +21,15 @@ class Thing
         done = 0
         do (events, callback, done)=>
             cb = (data, event)=>
-                @datas.swapItem(event, -> data) or @datas.appendItem event, data
+                @datas[event] = data
                 if ++ done >= events.length
-                    callback.apply null, events.map (e)=> @datas.getItem e
-                    @datas.deleteItem e for e in events
-                    clearTimeout @timers.deleteItem events.join ','
+                    callback.apply null, events.map (e)=> @datas[e]
+                    delete @datas[e] for e in events
+                    clearTimeout @timers[events.join ',']
 
             for event in events
-                pushed = @callbacks.swapItem event, (cbs)->
-                    cbs.push cb
-                    cbs
-                if not pushed
-                    @callbacks.appendItem event, [cb]
+                @callbacks[event] = [] unless event of @callbacks
+                @callbacks[event].push cb
             @lastevent = events
         this
 
@@ -45,23 +37,30 @@ class Thing
         event = @lastevent
         do (event)=>
             if typeof event is 'string'
-                @timers.appendItem event, delay timeout, =>
-                    @callbacks.deleteItem event
+                @timers[event] = delay timeout, =>
+                    delete @callbacks[event]
+                    delete @timers[event]
                     callback()
             else
-                @timers.appendItem event.join(','), delay timeout, =>
+                @timers[event.join(',')] = delay timeout, =>
                     done = {}
                     for e in event
-                        @callbacks.deleteItem e
-                        done[e] = @datas.deleteItem e
+                        delete @callbacks[e]
+                        if e of @datas
+                            done[e] = @datas[e]
+                            delete @datas[e]
+                    delete @timers[event.join(',')]
                     callback done
             this
 
     deliver: (event, data)->
-        clearTimeout @timers.deleteItem event
-        if callbacks = @callbacks.deleteItem event
-            for callback in callbacks
+        if event of @timers
+            clearTimeout @timers[event]
+            delete @timers[event]
+        if event of @callbacks
+            for callback in @callbacks[event]
                 callback data, event
+            delete @callbacks[event]
         this
 
 if module?

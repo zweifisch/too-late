@@ -1,42 +1,4 @@
-assert = require "assert"
-
-AssocList = require "./AssocList"
-
 delay = (time, cb)-> setTimeout cb, time
-
-describe "assoc list", ->
-
-    it "should append", ->
-        alist = new AssocList
-        alist.appendItem("key", "val")
-        alist.appendItem("key2", "val")
-        assert.deepEqual alist.toArray(), [["key", "val"], ["key2", "val"]]
-
-    it "should get", ->
-        alist = new AssocList
-        alist.appendItem("key", "val")
-        alist.appendItem("key2", "val2")
-        assert.deepEqual alist.getItem("key"), "val"
-        assert.deepEqual alist.getItem("key2"), "val2"
-
-    it 'should swap', ->
-        alist = new AssocList
-        alist.appendItem("key", "val")
-        alist.swapItem "key", (val)-> val.length
-        assert.equal alist.getItem("key"), 3
-
-        swapped = alist.swapItem "key2", (val)-> val.length
-        assert.equal swapped, no
-
-    it "should delete", ->
-        alist = new AssocList
-        alist.appendItem("key", "val")
-        alist.appendItem("key2", "val2")
-        assert.equal "val2", alist.deleteItem "key2"
-        assert.deepEqual alist.toArray(), [["key", "val"]]
-
-        assert.equal "val", alist.deleteItem "key"
-        assert.deepEqual alist.toArray(), []
 
 describe "too late", ->
 
