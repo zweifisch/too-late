@@ -1,10 +1,10 @@
 {
   "name": "too-late",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "events with timeouts",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/mocha/bin/mocha test.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/zweifisch/too-late/issues"
   },
-  "homepage": "https://github.com/zweifisch/too-late"
+  "homepage": "https://github.com/zweifisch/too-late",
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  }
 }
